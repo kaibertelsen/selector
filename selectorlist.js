@@ -21,7 +21,6 @@ const tomter = [
     }
 ];
 
-initializeTomterAdmin(tomter);
 
 
 

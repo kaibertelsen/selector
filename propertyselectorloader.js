@@ -18,7 +18,8 @@ cdnScripts.reduce((promise, script) => {
     return promise.then(() => loadScript(script));
 }, Promise.resolve()).then(() => {
     console.log("All scripts loaded");
-listbuttons(tomter);
+    initializeTomterAdmin(tomter);
+
 }).catch(error => {
     console.error(error);
 });
