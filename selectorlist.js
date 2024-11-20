@@ -1,6 +1,6 @@
 const tomter = [
     {
-        id: 1,
+        airtable: 1,
         nummer: 1,
         status: "ledig",
         navn: "Tomt A",
@@ -10,7 +10,7 @@ const tomter = [
         posY: 10
     },
     {
-        id: 2,
+        airtable: 2,
         nummer: 2,
         status: "opptatt",
         navn: "Tomt B",
@@ -23,8 +23,8 @@ const tomter = [
 
 
 
-
-    
+function initializeTomterAdmin(tomter) {
+    listbuttons(tomter);
 
     const buttonHolder = document.querySelector(".buttonholder");
     const adminToggle = document.getElementById("adminToggle");
@@ -38,8 +38,8 @@ const tomter = [
     adminToggle.addEventListener("click", () => {
         isAdminMode = !isAdminMode;
         adminToggle.textContent = isAdminMode ? "Deaktiver Admin-modus" : "Aktiver Admin-modus";
-        generateArrayButton.style.display = isAdminMode ? "block" : "none";
-        createNewTomtButton.style.display = isAdminMode ? "block" : "none";
+        generateArrayButton.style.display = isAdminMode ? "flex" : "none";
+        createNewTomtButton.style.display = isAdminMode ? "flex" : "none";
         document.body.classList.toggle("admin-mode", isAdminMode);
 
         buttons = document.querySelectorAll(".selectbutton");
@@ -47,9 +47,11 @@ const tomter = [
             button.draggable = isAdminMode;
 
             if (isAdminMode) {
+                button.addEventListener("click", editTomt);
                 button.addEventListener("dragstart", dragStart);
                 button.addEventListener("dragend", dragEnd);
             } else {
+                button.removeEventListener("click", editTomt);
                 button.removeEventListener("dragstart", dragStart);
                 button.removeEventListener("dragend", dragEnd);
             }
@@ -94,7 +96,7 @@ const tomter = [
 
     generateArrayButton.addEventListener("click", () => {
         const tomterArray = Array.from(buttons).map(button => ({
-            id: button.dataset.id || null,
+            airtable: button.dataset.airtable || null,
             nummer: button.querySelector(".number").textContent,
             status: button.dataset.status || "ledig",
             navn: button.dataset.navn || `Tomt ${button.querySelector(".number").textContent}`,
@@ -143,13 +145,12 @@ const tomter = [
                 break;
         }
 
-    newButton.style.position = "absolute";
-    newButton.style.left = `${tomtData.posX || 10}%`;
-    newButton.style.top = `${tomtData.posY || 10}%`;
-    newButton.style.display = "flex"; // Sørg for at knappen vises
+        newButton.style.position = "absolute";
+        newButton.style.left = `${tomtData.posX || 10}%`;
+        newButton.style.top = `${tomtData.posY || 10}%`;
+        newButton.style.display = "flex"; // Sørg for at knappen vises som flex
 
-
-        newButton.dataset.id = tomtData.id || null;
+        newButton.dataset.airtable = tomtData.airtable || null;
         newButton.dataset.navn = tomtData.navn || `Tomt ${tomtNumber}`;
         newButton.dataset.tekst = tomtData.tekst || "Ingen beskrivelse.";
         newButton.dataset.bilde360 = tomtData.bilde360 || "link_til_360_bilde";
@@ -158,11 +159,41 @@ const tomter = [
         newButton.draggable = isAdminMode;
 
         if (isAdminMode) {
+            newButton.addEventListener("click", editTomt);
             newButton.addEventListener("dragstart", dragStart);
             newButton.addEventListener("dragend", dragEnd);
         }
 
         return newButton;
     }
+
+    function editTomt(event) {
+        const button = event.target.closest(".selectbutton");
+        const tomtNumber = button.querySelector(".number").textContent;
+        const status = button.dataset.status || "ledig";
+
+        const newStatus = prompt(
+            `Rediger tomt ${tomtNumber}\nStatus (ledig, reservert, opptatt):`,
+            status
+        );
+
+        if (newStatus) {
+            button.dataset.status = newStatus.toLowerCase();
+            switch (newStatus.toLowerCase()) {
+                case "ledig":
+                    button.style.backgroundColor = "green";
+                    break;
+                case "opptatt":
+                    button.style.backgroundColor = "red";
+                    break;
+                case "reservert":
+                    button.style.backgroundColor = "yellow";
+                    break;
+                default:
+                    alert("Ugyldig status! Status ble ikke endret.");
+            }
+        }
+    }
+}
 
 
