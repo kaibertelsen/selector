@@ -127,43 +127,33 @@ function initializeTomterAdmin(tomter) {
     function createNewButton(tomtNumber, tomtData = {}) {
         const templateButton = document.querySelector(".selectbutton");
         const newButton = templateButton.cloneNode(true);
-
+    
         const numberElement = newButton.querySelector(".number");
         numberElement.textContent = tomtNumber;
-
+    
         // Sett standard status til "ledig"
         const status = tomtData.status || "ledig";
-        switch (status) {
-            case "ledig":
-                newButton.style.backgroundColor = "green";
-                break;
-            case "opptatt":
-                newButton.style.backgroundColor = "red";
-                break;
-            case "reservert":
-                newButton.style.backgroundColor = "yellow";
-                break;
-        }
-
+        setButtonBackground(newButton, status);
+    
         newButton.style.position = "absolute";
         newButton.style.left = `${tomtData.posX || 10}%`;
         newButton.style.top = `${tomtData.posY || 10}%`;
         newButton.style.display = "flex"; // Sørg for at knappen vises som flex
-
+    
         newButton.dataset.airtable = tomtData.airtable || null;
         newButton.dataset.navn = tomtData.navn || `Tomt ${tomtNumber}`;
         newButton.dataset.tekst = tomtData.tekst || "Ingen beskrivelse.";
         newButton.dataset.bilde360 = tomtData.bilde360 || "link_til_360_bilde";
         newButton.dataset.status = status;
-
+    
         newButton.draggable = isAdminMode;
-
+    
         if (isAdminMode) {
             newButton.addEventListener("click", editTomt);
             newButton.addEventListener("dragstart", dragStart);
             newButton.addEventListener("dragend", dragEnd);
         }
-
+    
         return newButton;
     }
 
@@ -171,27 +161,31 @@ function initializeTomterAdmin(tomter) {
         const button = event.target.closest(".selectbutton");
         const tomtNumber = button.querySelector(".number").textContent;
         const status = button.dataset.status || "ledig";
-
+    
         const newStatus = prompt(
             `Rediger tomt ${tomtNumber}\nStatus (ledig, reservert, opptatt):`,
             status
         );
-
+    
         if (newStatus) {
             button.dataset.status = newStatus.toLowerCase();
-            switch (newStatus.toLowerCase()) {
-                case "ledig":
-                    button.style.backgroundColor = "green";
-                    break;
-                case "opptatt":
-                    button.style.backgroundColor = "red";
-                    break;
-                case "reservert":
-                    button.style.backgroundColor = "yellow";
-                    break;
-                default:
-                    alert("Ugyldig status! Status ble ikke endret.");
-            }
+            setButtonBackground(button, newStatus.toLowerCase());
+        }
+    }
+
+    function setButtonBackground(button, status) {
+        switch (status) {
+            case "ledig":
+                button.style.backgroundColor = "rgba(0, 255, 0, 0.5)"; // Grønn med 50% gjennomsiktighet
+                break;
+            case "opptatt":
+                button.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Rød med 50% gjennomsiktighet
+                break;
+            case "reservert":
+                button.style.backgroundColor = "rgba(255, 255, 0, 0.5)"; // Gul med 50% gjennomsiktighet
+                break;
+            default:
+                button.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // Standard svart med 50% gjennomsiktighet
         }
     }
 }
