@@ -31,6 +31,7 @@ function initializeTomterAdmin(tomter) {
     const buttonHolder = document.querySelector(".buttonholder");
     const adminToggle = document.getElementById("adminToggle");
     const generateArrayButton = document.getElementById("generateArray");
+    const createNewTomtButton = document.getElementById("createNewTomt");
     const mapHolder = document.querySelector(".mapholder");
 
     let isAdminMode = false;
@@ -40,11 +41,10 @@ function initializeTomterAdmin(tomter) {
         isAdminMode = !isAdminMode;
         adminToggle.textContent = isAdminMode ? "Deaktiver Admin-modus" : "Aktiver Admin-modus";
         generateArrayButton.style.display = isAdminMode ? "block" : "none";
+        createNewTomtButton.style.display = isAdminMode ? "block" : "none";
         document.body.classList.toggle("admin-mode", isAdminMode);
 
-        // Oppdater knappene
         buttons = document.querySelectorAll(".selectbutton");
-
         buttons.forEach(button => {
             button.draggable = isAdminMode;
 
@@ -56,6 +56,13 @@ function initializeTomterAdmin(tomter) {
                 button.removeEventListener("dragend", dragEnd);
             }
         });
+    });
+
+    createNewTomtButton.addEventListener("click", () => {
+        const newTomtNumber = buttons.length + 1; // Generer nytt tomtenummer
+        const newButton = createNewButton(newTomtNumber);
+        buttonHolder.appendChild(newButton);
+        buttons = document.querySelectorAll(".selectbutton");
     });
 
     let activeButton = null;
@@ -70,11 +77,14 @@ function initializeTomterAdmin(tomter) {
             const mapWidth = rect.width;
             const mapHeight = rect.height;
 
-            // Beregn prosentbaserte posisjoner
-            const posX = ((event.clientX - rect.left) / mapWidth) * 100;
-            const posY = ((event.clientY - rect.top) / mapHeight) * 100;
+            const buttonRect = activeButton.getBoundingClientRect();
+            const buttonWidth = buttonRect.width;
+            const buttonHeight = buttonRect.height;
 
-            // Oppdater knappens stil
+            // Beregn senterposisjon
+            const posX = ((event.clientX - rect.left - buttonWidth / 2) / mapWidth) * 100;
+            const posY = ((event.clientY - rect.top - buttonHeight / 2) / mapHeight) * 100;
+
             activeButton.style.left = `${posX}%`;
             activeButton.style.top = `${posY}%`;
             activeButton.dataset.posX = posX.toFixed(2);
@@ -105,43 +115,54 @@ function initializeTomterAdmin(tomter) {
         const templateButton = document.querySelector(".selectbutton");
 
         data.forEach(tomt => {
-            // Klon knappen
-            const newButton = templateButton.cloneNode(true);
-
-            // Oppdater tomtenummeret
-            const numberElement = newButton.querySelector(".number");
-            numberElement.textContent = tomt.nummer;
-
-            // Sett status og farge
-            switch (tomt.status) {
-                case "ledig":
-                    newButton.style.backgroundColor = "green";
-                    break;
-                case "opptatt":
-                    newButton.style.backgroundColor = "red";
-                    break;
-                case "reservert":
-                    newButton.style.backgroundColor = "yellow";
-                    break;
-            }
-
-            // Sett plassering basert på posisjon
-            newButton.style.position = "absolute";
-            newButton.style.left = `${tomt.posX}%`;
-            newButton.style.top = `${tomt.posY}%`;
-
-            // Legg til data-attributter for ekstra informasjon
-            newButton.dataset.id = tomt.id;
-            newButton.dataset.navn = tomt.navn;
-            newButton.dataset.tekst = tomt.tekst;
-            newButton.dataset.bilde360 = tomt.bilde360;
-
-            // Legg til knappen i buttonholder
+            const newButton = createNewButton(tomt.nummer, tomt);
             buttonHolder.appendChild(newButton);
         });
 
         // Fjern originalen
-        templateButton.style.display = "none";
+        const templateButtonElement = document.querySelector(".selectbutton");
+        templateButtonElement.style.display = "none";
+    }
+
+    function createNewButton(tomtNumber, tomtData = {}) {
+        const templateButton = document.querySelector(".selectbutton");
+        const newButton = templateButton.cloneNode(true);
+
+        const numberElement = newButton.querySelector(".number");
+        numberElement.textContent = tomtNumber;
+
+        // Sett standard status til "ledig"
+        const status = tomtData.status || "ledig";
+        switch (status) {
+            case "ledig":
+                newButton.style.backgroundColor = "green";
+                break;
+            case "opptatt":
+                newButton.style.backgroundColor = "red";
+                break;
+            case "reservert":
+                newButton.style.backgroundColor = "yellow";
+                break;
+        }
+
+        newButton.style.left = `${tomtData.posX || 10}%`;
+        newButton.style.top = `${tomtData.posY || 10}%`;
+
+        newButton.dataset.id = tomtData.id || null;
+        newButton.dataset.navn = tomtData.navn || `Tomt ${tomtNumber}`;
+        newButton.dataset.tekst = tomtData.tekst || "Ingen beskrivelse.";
+        newButton.dataset.bilde360 = tomtData.bilde360 || "link_til_360_bilde";
+        newButton.dataset.status = status;
+
+        newButton.draggable = isAdminMode;
+
+        if (isAdminMode) {
+            newButton.addEventListener("dragstart", dragStart);
+            newButton.addEventListener("dragend", dragEnd);
+        }
+
+        return newButton;
     }
 }
+
 
