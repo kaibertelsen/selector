@@ -143,8 +143,11 @@ const tomter = [
                 break;
         }
 
-        newButton.style.left = `${tomtData.posX || 10}%`;
-        newButton.style.top = `${tomtData.posY || 10}%`;
+    newButton.style.position = "absolute";
+    newButton.style.left = `${tomtData.posX || 10}%`;
+    newButton.style.top = `${tomtData.posY || 10}%`;
+    newButton.style.display = "block"; // Sørg for at knappen vises
+
 
         newButton.dataset.id = tomtData.id || null;
         newButton.dataset.navn = tomtData.navn || `Tomt ${tomtNumber}`;
