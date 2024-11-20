@@ -10,7 +10,7 @@ function loadScript(url) {
 
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
-    "https://kaibertelsen.github.io/innkjopsgruppen/selector/selectorlist.js"
+    "https://kaibertelsen.github.io/selector/selectorlist.js"
 ];
 
 // Laste inn alle skriptene sekvensielt
@@ -22,3 +22,4 @@ cdnScripts.reduce((promise, script) => {
     console.error(error);
 });
 
+/*<script src="https://kaibertelsen.github.io/innkjopsgruppen/value/valueloader.js"></script>*/
