@@ -146,7 +146,7 @@ const tomter = [
     newButton.style.position = "absolute";
     newButton.style.left = `${tomtData.posX || 10}%`;
     newButton.style.top = `${tomtData.posY || 10}%`;
-    newButton.style.display = "block"; // Sørg for at knappen vises
+    newButton.style.display = "flex"; // Sørg for at knappen vises
 
 
         newButton.dataset.id = tomtData.id || null;
