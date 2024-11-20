@@ -86,3 +86,77 @@ function listbuttons(data){
     // Fjern originalen
     templateButton.style.display = "none";
 }
+
+
+
+    const buttonHolder = document.querySelector(".buttonholder");
+    const adminToggle = document.getElementById("adminToggle");
+    const generateArrayButton = document.getElementById("generateArray");
+    const buttons = document.querySelectorAll(".selectbutton");
+    const mapHolder = document.querySelector(".mapholder");
+
+    let isAdminMode = false;
+
+    adminToggle.addEventListener("click", () => {
+        isAdminMode = !isAdminMode;
+        adminToggle.textContent = isAdminMode ? "Deaktiver Admin-modus" : "Aktiver Admin-modus";
+        generateArrayButton.style.display = isAdminMode ? "block" : "none";
+
+        // Aktiver dra-og-slipp funksjonalitet i admin-modus
+        buttons.forEach(button => {
+            button.draggable = isAdminMode;
+
+            if (isAdminMode) {
+                button.addEventListener("dragstart", dragStart);
+                button.addEventListener("dragend", dragEnd);
+            } else {
+                button.removeEventListener("dragstart", dragStart);
+                button.removeEventListener("dragend", dragEnd);
+            }
+        });
+    });
+
+    let activeButton = null;
+
+    function dragStart(event) {
+        activeButton = event.target;
+    }
+
+    function dragEnd(event) {
+        if (activeButton) {
+            const rect = mapHolder.getBoundingClientRect();
+            const mapWidth = rect.width;
+            const mapHeight = rect.height;
+
+            // Beregn prosentbaserte posisjoner
+            const posX = ((event.clientX - rect.left) / mapWidth) * 100;
+            const posY = ((event.clientY - rect.top) / mapHeight) * 100;
+
+            // Oppdater knappens stil
+            activeButton.style.left = `${posX}%`;
+            activeButton.style.top = `${posY}%`;
+            activeButton.style.position = "absolute";
+
+            activeButton.dataset.posX = posX.toFixed(2);
+            activeButton.dataset.posY = posY.toFixed(2);
+
+            activeButton = null;
+        }
+    }
+
+    generateArrayButton.addEventListener("click", () => {
+        const tomterArray = Array.from(buttons).map(button => ({
+            id: button.dataset.id || null,
+            nummer: button.querySelector(".number").textContent,
+            status: button.dataset.status || "ledig",
+            navn: button.dataset.navn || `Tomt ${button.querySelector(".number").textContent}`,
+            tekst: button.dataset.tekst || "Ingen beskrivelse.",
+            bilde360: button.dataset.bilde360 || "link_til_360_bilde",
+            posX: button.dataset.posX,
+            posY: button.dataset.posY
+        }));
+
+        console.log(JSON.stringify(tomterArray, null, 2)); // Kopier arrayen fra konsollen
+        alert("Tomte-array generert! Sjekk konsollen for data.");
+    });
+
