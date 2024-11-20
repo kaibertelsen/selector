@@ -23,8 +23,8 @@ const tomter = [
 
 
 
-function initializeTomterAdmin(tomter) {
-    listbuttons(tomter);
+
+    
 
     const buttonHolder = document.querySelector(".buttonholder");
     const adminToggle = document.getElementById("adminToggle");
@@ -188,6 +188,6 @@ function initializeTomterAdmin(tomter) {
                 button.style.backgroundColor = "rgba(0, 0, 0, 0.5)"; // Standard svart med 50% gjennomsiktighet
         }
     }
-}
+
 
 
