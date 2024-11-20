@@ -24,9 +24,7 @@ const tomter = [
 
 
 
-
-function initializeTomterAdmin(tomter) {
-    listbuttons(tomter);
+    
 
     const buttonHolder = document.querySelector(".buttonholder");
     const adminToggle = document.getElementById("adminToggle");
@@ -163,6 +161,5 @@ function initializeTomterAdmin(tomter) {
 
         return newButton;
     }
-}
 
 
