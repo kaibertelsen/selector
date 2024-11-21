@@ -290,7 +290,10 @@ function initialize360Viewer(url) {
 
 function start360Viewer(url) {
     initialize360Viewer(); // Sørg for at viewer er initialisert
-
+    const panoramaDiv = document.getElementById("panorama");
+    if (panoramaDiv) {
+        panoramaDiv.style.display = "block"; // Gjør div-en synlig igjen
+    }
     // Legg til eller oppdater en scene
     currentViewer.addScene("newScene", {
         "type": "equirectangular",
