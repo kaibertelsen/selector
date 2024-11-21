@@ -1,13 +1,5 @@
 const tomter = [
     {
-      "airtable": null,
-      "nummer": "48",
-      "status": "ledig",
-      "navn": "Tomt 48",
-      "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
-    },
-    {
       "airtable": "1",
       "nummer": "1",
       "status": "ledig",
