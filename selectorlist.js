@@ -34,6 +34,27 @@ const tomter = [
     let isAdminMode = false;
     let activeButton = null;
 
+// Funksjon for å håndtere visning og skjuling av kart
+function toggleMap() {
+    const satellittkart = document.getElementById("satelittkart");
+    const reguleringskart = document.getElementById("reguleringskart");
+
+    if (satellittkart.style.display === "none") {
+        // Gjør satellittkart synlig og reguleringskart skjult
+        satellittkart.style.display = "block";
+        reguleringskart.style.display = "none";
+    } else {
+        // Gjør reguleringskart synlig og satellittkart skjult
+        satellittkart.style.display = "none";
+        reguleringskart.style.display = "block";
+    }
+}
+
+// Legg til en event listener på knappen
+document.getElementById("mapchangerbutton").addEventListener("click", toggleMap);
+
+
+
     // Aktiver/deaktiver admin-modus
     adminToggle.addEventListener("click", () => {
         isAdminMode = !isAdminMode;
