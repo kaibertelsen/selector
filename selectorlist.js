@@ -34,6 +34,9 @@ function toggleMapWithFade() {
 
 // Legg til en event listener på knappen
 document.getElementById("mapchangerbutton").addEventListener("click", toggleMapWithFade);
+document.getElementById("backtooverviewbutton").addEventListener("click", backtooverview);
+
+
 
 // Aktiver/deaktiver admin-modus
 adminToggle.addEventListener("click", () => {
@@ -233,21 +236,29 @@ function setButtonBackground(button, status) {
 // Funksjon som kjøres når en tomteknapp trykkes i brukermodus
 function handleTomteknappClick(event) {
     if (isAdminMode) return; // Ikke gjør noe i admin-modus
-
-    selecttabbutton.click();
-
+    document.getElementById("selecttabbutton").click();
 
     const button = event.target.closest(".selectbutton");
-
     // Hent data fra knappens dataset
     const tomtNavn = button.dataset.navn || "Ukjent tomt";
     const tomtTekst = button.dataset.tekst || "Ingen beskrivelse tilgjengelig.";
     start360Viewer(button.dataset.bilde360 || "");
 }
 
-
-
 function start360Viewer(url){
+
+    // Opprett et nytt div-element
+    const panoramaDiv = document.createElement("div");
+
+    // Sett ID og stil
+    panoramaDiv.id = "panorama";
+    panoramaDiv.style.width = "100%";
+    panoramaDiv.style.height = "100%";
+    panoramaDiv.style.zIndex = "0";
+
+    // Legg til elementet i body eller et annet ønsket element
+    document.getElementById("panpramaviewer").appendChild(panoramaDiv);
+
     const viewer = pannellum.viewer('panorama', {
       "type": "equirectangular",
       "panorama": url,
@@ -286,3 +297,16 @@ function start360Viewer(url){
     viewer.on('touchend', startRotationAfterDelay);
     viewer.on('pointerup', startRotationAfterDelay);
   };
+
+
+
+function backtooverview(){
+    stop360Viewer();
+    document.getElementById("overviewtabbutton").click();
+}
+
+
+  function stop360Viewer(){
+    document.getElementById("panorama").remove();
+    document.getElementById('fadeinloadbutton').click();
+  }
