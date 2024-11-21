@@ -247,27 +247,37 @@ function handleTomteknappClick(event) {
     }
 }
 
+function backtooverview(){
+    stop360Viewer();
+    document.getElementById("overviewtabbutton").click();
+    document.getElementById("backtooverviewbutton").style.display = "none";
+}
+
 let currentViewer = null; // Variabel for å spore gjeldende viewer
 
 function start360Viewer(url) {
-    // Fjern eksisterende viewer hvis den finnes
+    // Rydd opp eksisterende viewer og div om nødvendig
     if (currentViewer) {
-        currentViewer.destroy(); // Fjern eksisterende viewer helt
-        currentViewer = null;
+        currentViewer.destroy(); // Fjern eksisterende viewer
+        currentViewer = null; // Nullstill referansen
     }
 
-    // Opprett et nytt div-element
-    const panoramaDiv = document.createElement("div");
-    document.getElementById("backtooverviewbutton").style.display = "block";
+    const existingPanoramaDiv = document.getElementById("panorama");
+    if (existingPanoramaDiv) {
+        existingPanoramaDiv.remove(); // Fjern eksisterende div
+    }
 
-    // Sett ID og stil
+    // Opprett et nytt div-element for panorama
+    const panoramaDiv = document.createElement("div");
     panoramaDiv.id = "panorama";
     panoramaDiv.style.width = "100%";
     panoramaDiv.style.height = "100%";
     panoramaDiv.style.zIndex = "0";
 
-    // Legg til elementet i containeren
     document.getElementById("panpramaviewer").appendChild(panoramaDiv);
+
+    // Vis tilbakeknappen
+    document.getElementById("backtooverviewbutton").style.display = "block";
 
     // Opprett ny viewer
     currentViewer = pannellum.viewer('panorama', {
@@ -275,26 +285,26 @@ function start360Viewer(url) {
         "panorama": url,
         "autoLoad": true,
         "showControls": false,
-        "autoRotate": -1.5 // Rotasjonshastighet: 1.5 grader per sekund mot venstre
+        "autoRotate": -1.5 // Rotasjonshastighet
     });
 
     let interactionTimeout = null;
 
-    // Skjul placeholder når 360-bildet er lastet
+    // Skjul placeholder når bildet er lastet
     currentViewer.on('load', function () {
         document.getElementById('fadeinloadbutton').click();
     });
 
-    // Funksjon for å starte rotasjonen etter 5 sekunder
+    // Funksjon for å starte rotasjon etter brukerinteraksjon
     function startRotationAfterDelay() {
         interactionTimeout = setTimeout(() => {
             currentViewer.startAutoRotate(-1.5); // Start auto-rotasjon etter 5 sekunder
         }, 5000);
     }
 
-    // Stopp rotasjonen når brukeren begynner å interagere
+    // Stopp rotasjonen ved brukerinteraksjon
     function stopRotationOnInteraction() {
-        clearTimeout(interactionTimeout); // Fjern tidligere timeout hvis den finnes
+        clearTimeout(interactionTimeout); // Fjern tidligere timeout
         currentViewer.stopAutoRotate(); // Stopp auto-rotasjon
     }
 
@@ -303,26 +313,26 @@ function start360Viewer(url) {
     currentViewer.on('touchstart', stopRotationOnInteraction);
     currentViewer.on('pointerdown', stopRotationOnInteraction);
 
-    // Start rotasjonen igjen etter at brukeren er ferdig med interaksjonen
+    // Start rotasjon igjen etter interaksjon
     currentViewer.on('mouseup', startRotationAfterDelay);
     currentViewer.on('touchend', startRotationAfterDelay);
     currentViewer.on('pointerup', startRotationAfterDelay);
 }
 
+function stop360Viewer() {
+    // Rydd opp i eksisterende viewer
+    if (currentViewer) {
+        currentViewer.destroy(); // Fjern viewer
+        currentViewer = null; // Nullstill referansen
+    }
 
+    // Fjern panorama-diven hvis den finnes
+    const panoramaDiv = document.getElementById("panorama");
+    if (panoramaDiv) {
+        panoramaDiv.remove();
+    }
 
-function backtooverview(){
-    stop360Viewer();
-    document.getElementById("overviewtabbutton").click();
+    // Skjul tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "none";
 }
 
-function stop360Viewer() {
-    if (currentViewer) {
-        currentViewer.destroy(); // Fjern viewer helt
-        currentViewer = null;
-    }
-    const panoramaDiv = document.getElementById("panorama");
-    if (panoramaDiv) panoramaDiv.remove(); // Fjern panorama-div hvis den finnes
-    document.getElementById('fadeinloadbutton').click();
-}
