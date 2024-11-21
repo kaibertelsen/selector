@@ -249,7 +249,7 @@ function start360Viewer(url){
 
     // Opprett et nytt div-element
     const panoramaDiv = document.createElement("div");
-
+document.getElementById("backtooverviewbutton").style.display = "block";
     // Sett ID og stil
     panoramaDiv.id = "panorama";
     panoramaDiv.style.width = "100%";
@@ -303,6 +303,7 @@ function start360Viewer(url){
 function backtooverview(){
     stop360Viewer();
     document.getElementById("overviewtabbutton").click();
+    document.getElementById("backtooverviewbutton").style.display = "none";
 }
 
 
