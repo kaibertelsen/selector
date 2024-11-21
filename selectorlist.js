@@ -308,18 +308,24 @@ function initialize360Viewer(url) {
     }
 }
 
-function start360Viewer(url) {
-    initialize360Viewer(url); // Sørg for at viewer er initialisert
-
-    // Bytt panoramabilde i eksisterende viewer
+function update360Viewer(url) {
     if (currentViewer) {
-        currentViewer.loadScene({
-            "type": "equirectangular",
-            "panorama": url,
-            "autoLoad": true
+        currentViewer.setPanorama(url, { 
+            "autoLoad": true, 
+            "autoRotate": -1.5 // Start rotasjon umiddelbart
         });
+    } else {
+        console.error("Viewer er ikke initialisert.");
     }
+}
 
+function start360Viewer(url) {
+
+    if(currentViewer){
+        update360Viewer(url)
+    }else{
+        nitialize360Viewer(url); // Førstegang
+    }
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
 }
