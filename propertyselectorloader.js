@@ -10,6 +10,7 @@ function loadScript(url) {
 
 // Liste over CDN-URL-er som skal lastes inn
 const cdnScripts = [
+    "https://kaibertelsen.github.io/selector/propertyinfo.js",
     "https://kaibertelsen.github.io/selector/selectorlist.js"
 ];
 
