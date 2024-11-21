@@ -720,28 +720,36 @@ document.getElementById("mapchangerbutton").addEventListener("click", toggleMapW
 
 
     // Aktiver/deaktiver admin-modus
-    adminToggle.addEventListener("click", () => {
-        isAdminMode = !isAdminMode;
-        adminToggle.textContent = isAdminMode ? "Deaktiver Admin-modus" : "Aktiver Admin-modus";
-        generateArrayButton.style.display = isAdminMode ? "flex" : "none";
-        createNewTomtButton.style.display = isAdminMode ? "flex" : "none";
-        document.body.classList.toggle("admin-mode", isAdminMode);
+adminToggle.addEventListener("click", () => {
+    isAdminMode = !isAdminMode;
+    adminToggle.textContent = isAdminMode ? "Deaktiver Admin-modus" : "Aktiver Admin-modus";
+    generateArrayButton.style.display = isAdminMode ? "flex" : "none";
+    createNewTomtButton.style.display = isAdminMode ? "flex" : "none";
+    document.body.classList.toggle("admin-mode", isAdminMode);
 
-        const buttons = document.querySelectorAll(".selectbutton");
-        buttons.forEach(button => {
-            button.draggable = isAdminMode;
+    const buttons = document.querySelectorAll(".selectbutton");
+    buttons.forEach(button => {
+        button.draggable = isAdminMode;
 
-            if (isAdminMode) {
-                button.addEventListener("click", editTomt);
-                button.addEventListener("dragstart", dragStart);
-                button.addEventListener("dragend", dragEnd);
-            } else {
-                button.removeEventListener("click", editTomt);
-                button.removeEventListener("dragstart", dragStart);
-                button.removeEventListener("dragend", dragEnd);
-            }
-        });
+        if (isAdminMode) {
+            // Admin-modus: legg til admin-spesifikke hendelser
+            button.addEventListener("click", editTomt);
+            button.addEventListener("dragstart", dragStart);
+            button.addEventListener("dragend", dragEnd);
+
+            // Fjern brukermodus-hendelsen
+            button.removeEventListener("click", handleTomteknappClick);
+        } else {
+            // Brukermodus: legg til handling for når en tomteknapp trykkes
+            button.addEventListener("click", handleTomteknappClick);
+
+            // Fjern admin-spesifikke hendelser
+            button.removeEventListener("click", editTomt);
+            button.removeEventListener("dragstart", dragStart);
+            button.removeEventListener("dragend", dragEnd);
+        }
     });
+});
 
     // Opprett ny tomt
     createNewTomtButton.addEventListener("click", () => {
@@ -900,3 +908,16 @@ document.getElementById("mapchangerbutton").addEventListener("click", toggleMapW
         }
     }
 
+
+
+    // Funksjon som kjøres når en tomteknapp trykkes i brukermodus
+function handleTomteknappClick(event) {
+    const button = event.target.closest(".selectbutton");
+
+    // Hent data fra knappens dataset
+    const tomtNavn = button.dataset.navn || "Ukjent tomt";
+    const tomtTekst = button.dataset.tekst || "Ingen beskrivelse tilgjengelig.";
+
+    // Eksempel: Vis en alert (kan tilpasses til en modal eller annen handling)
+    alert(`Du har valgt ${tomtNavn}.\nBeskrivelse: ${tomtTekst}`);
+}
