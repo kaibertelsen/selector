@@ -169,7 +169,9 @@ generateArrayButton.addEventListener("click", () => {
 function listbuttons(data) {
         data.forEach(tomt => {
             const newButton = createNewButton(tomt.nummer, tomt);
+            if(tomt.status == "ledig"){
             newButton.addEventListener("click", handleTomteknappClick);
+            }
             buttonHolder.appendChild(newButton);
         });
 
@@ -242,8 +244,8 @@ function handleTomteknappClick(event) {
     document.getElementById("headertomtnamelable").textContent = button.dataset.navn || "Ukjent tomt";
     document.getElementById("tomtetextlable").textContent = button.dataset.tekst || "Ukjent tomt";
 
-    if(button.dataset.bilde360 != ""){
-    start360Viewer(button.dataset.bilde360 || "");
+    if (button.dataset.bilde360 && button.dataset.bilde360.trim() !== "") {
+        start360Viewer(button.dataset.bilde360);
     }
 }
 
@@ -289,6 +291,7 @@ function initialize360Viewer(url) {
 
 
 function start360Viewer(url) {
+
     initialize360Viewer(); // Sørg for at viewer er initialisert
     const panoramaDiv = document.getElementById("panorama");
     if (panoramaDiv) {
