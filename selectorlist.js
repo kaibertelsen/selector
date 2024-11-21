@@ -220,16 +220,16 @@ function createNewButton(tomtNumber, tomtData = {}) {
 function setButtonBackground(button, status) {
         switch (status) {
             case "ledig":
-                button.style.backgroundColor = "rgba(0, 255, 0, 0.5)";
+                button.style.backgroundColor = "rgba(0, 255, 0, 0.8)";
                 break;
             case "reservert":
-                button.style.backgroundColor = "rgba(255, 255, 0, 0.5)";
+                button.style.backgroundColor = "rgba(255, 255, 0, 0.8)";
                 break;
             case "opptatt":
-                button.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+                button.style.backgroundColor = "rgba(255, 0, 0, 0.8)";
                 break;
             default:
-                button.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+                button.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
         }
 }
 
