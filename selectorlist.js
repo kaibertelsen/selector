@@ -255,7 +255,7 @@ function backtooverview(){
 
 let currentViewer = null; // Variabel for å holde viewer-instansen
 
-function initialize360Viewer() {
+function initialize360Viewer(url) {
     // Opprett panorama-div hvis det ikke finnes
     let panoramaDiv = document.getElementById("panorama");
     if (!panoramaDiv) {
@@ -271,7 +271,7 @@ function initialize360Viewer() {
     if (!currentViewer) {
         currentViewer = pannellum.viewer('panorama', {
             "type": "equirectangular",
-            "panorama": "", // Start uten panoramabilde
+            "panorama": url, // Start uten panoramabilde
             "autoLoad": true,
             "showControls": false,
             "autoRotate": -1.5 // Rotasjonshastighet
@@ -309,7 +309,7 @@ function initialize360Viewer() {
 }
 
 function start360Viewer(url) {
-    initialize360Viewer(); // Sørg for at viewer er initialisert
+    initialize360Viewer(url); // Sørg for at viewer er initialisert
 
     // Bytt panoramabilde i eksisterende viewer
     if (currentViewer) {
