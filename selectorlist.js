@@ -247,6 +247,7 @@ function handleTomteknappClick(event) {
     if (button.dataset.bilde360 && button.dataset.bilde360.trim() !== "") {
         start360Viewer(button.dataset.bilde360);
     }
+    scrollToTop();
 }
 
 function backtooverview(){
@@ -291,6 +292,13 @@ function initialize360Viewer(url) {
         update = false;
     }
     return update;
+}
+
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth" // Gir en jevn rulleffekt
+    });
 }
 
 
