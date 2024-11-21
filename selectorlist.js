@@ -45,7 +45,7 @@ adminToggle.addEventListener("click", () => {
     generateArrayButton.style.display = isAdminMode ? "flex" : "none";
     createNewTomtButton.style.display = isAdminMode ? "flex" : "none";
     document.body.classList.toggle("admin-mode", isAdminMode);
-
+    const buttons = document.querySelectorAll('.selectbutton');
     // Oppdater hendelser basert på modus
     buttons.forEach(button => {
         button.draggable = isAdminMode;
