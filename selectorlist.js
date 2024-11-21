@@ -324,7 +324,7 @@ function start360Viewer(url) {
     if(currentViewer){
         update360Viewer(url)
     }else{
-        nitialize360Viewer(url); // Førstegang
+        initialize360Viewer(url); // Førstegang
     }
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
