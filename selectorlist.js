@@ -35,13 +35,6 @@ function toggleMapWithFade() {
 // Legg til en event listener på knappen
 document.getElementById("mapchangerbutton").addEventListener("click", toggleMapWithFade);
 
-
-// Sett opp initial klikkhendelse for alle tomteknapper
-const buttons = document.querySelectorAll(".selectbutton");
-buttons.forEach(button => {
-    button.addEventListener("click", handleTomteknappClick); // Brukermodus-hendelse
-});
-
 // Aktiver/deaktiver admin-modus
 adminToggle.addEventListener("click", () => {
     isAdminMode = !isAdminMode;
@@ -102,7 +95,7 @@ closeModal.addEventListener("click", () => {
 });
 
 // Lagre tomteinformasjon
-    saveTomt.addEventListener("click", () => {
+saveTomt.addEventListener("click", () => {
         const tomtNummer = document.getElementById("tomtNummer").value;
         const tomtStatus = document.getElementById("tomtStatus").value;
         const tomtNavn = document.getElementById("tomtNavn").value;
@@ -173,12 +166,16 @@ generateArrayButton.addEventListener("click", () => {
 function listbuttons(data) {
         data.forEach(tomt => {
             const newButton = createNewButton(tomt.nummer, tomt);
+            newButton.addEventListener("click", handleTomteknappClick);
             buttonHolder.appendChild(newButton);
         });
 
         // Fjern mal-knappen
         const templateButton = document.querySelector(".selectbutton");
         templateButton.style.display = "none";
+
+
+
 }
 
 // Opprett en ny tomtknapp
