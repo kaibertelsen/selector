@@ -253,86 +253,88 @@ function backtooverview(){
     document.getElementById("backtooverviewbutton").style.display = "none";
 }
 
-let currentViewer = null; // Variabel for å spore gjeldende viewer
+let currentViewer = null; // Variabel for å holde viewer-instansen
+
+function initialize360Viewer() {
+    // Opprett panorama-div hvis det ikke finnes
+    let panoramaDiv = document.getElementById("panorama");
+    if (!panoramaDiv) {
+        panoramaDiv = document.createElement("div");
+        panoramaDiv.id = "panorama";
+        panoramaDiv.style.width = "100%";
+        panoramaDiv.style.height = "100%";
+        panoramaDiv.style.zIndex = "0";
+        document.getElementById("panpramaviewer").appendChild(panoramaDiv);
+    }
+
+    // Opprett viewer hvis det ikke finnes
+    if (!currentViewer) {
+        currentViewer = pannellum.viewer('panorama', {
+            "type": "equirectangular",
+            "panorama": "", // Start uten panoramabilde
+            "autoLoad": true,
+            "showControls": false,
+            "autoRotate": -1.5 // Rotasjonshastighet
+        });
+
+        let interactionTimeout = null;
+
+        // Funksjon for å starte rotasjon etter brukerinteraksjon
+        function startRotationAfterDelay() {
+            interactionTimeout = setTimeout(() => {
+                if (currentViewer) {
+                    currentViewer.startAutoRotate(-1.5);
+                }
+            }, 5000);
+        }
+
+        // Stopp rotasjonen ved brukerinteraksjon
+        function stopRotationOnInteraction() {
+            clearTimeout(interactionTimeout);
+            if (currentViewer) {
+                currentViewer.stopAutoRotate();
+            }
+        }
+
+        // Lytt etter brukerinteraksjon
+        currentViewer.on('mousedown', stopRotationOnInteraction);
+        currentViewer.on('touchstart', stopRotationOnInteraction);
+        currentViewer.on('pointerdown', stopRotationOnInteraction);
+
+        // Start rotasjon igjen etter interaksjon
+        currentViewer.on('mouseup', startRotationAfterDelay);
+        currentViewer.on('touchend', startRotationAfterDelay);
+        currentViewer.on('pointerup', startRotationAfterDelay);
+    }
+}
 
 function start360Viewer(url) {
-    // Rydd opp eksisterende viewer og div om nødvendig
+    initialize360Viewer(); // Sørg for at viewer er initialisert
+
+    // Bytt panoramabilde i eksisterende viewer
     if (currentViewer) {
-        currentViewer.destroy(); // Fjern eksisterende viewer
-        currentViewer = null; // Nullstill referansen
+        currentViewer.loadScene({
+            "type": "equirectangular",
+            "panorama": url,
+            "autoLoad": true
+        });
     }
-
-    const existingPanoramaDiv = document.getElementById("panorama");
-    if (existingPanoramaDiv) {
-        existingPanoramaDiv.remove(); // Fjern eksisterende div
-    }
-
-    // Opprett et nytt div-element for panorama
-    const panoramaDiv = document.createElement("div");
-    panoramaDiv.id = "panorama";
-    panoramaDiv.style.width = "100%";
-    panoramaDiv.style.height = "100%";
-    panoramaDiv.style.zIndex = "0";
-
-    document.getElementById("panpramaviewer").appendChild(panoramaDiv);
 
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
-
-    // Opprett ny viewer
-    currentViewer = pannellum.viewer('panorama', {
-        "type": "equirectangular",
-        "panorama": url,
-        "autoLoad": true,
-        "showControls": false,
-        "autoRotate": -1.5 // Rotasjonshastighet
-    });
-
-    let interactionTimeout = null;
-
-    // Skjul placeholder når bildet er lastet
-    currentViewer.on('load', function () {
-        document.getElementById('fadeinloadbutton').click();
-    });
-
-    // Funksjon for å starte rotasjon etter brukerinteraksjon
-    function startRotationAfterDelay() {
-        interactionTimeout = setTimeout(() => {
-            currentViewer.startAutoRotate(-1.5); // Start auto-rotasjon etter 5 sekunder
-        }, 5000);
-    }
-
-    // Stopp rotasjonen ved brukerinteraksjon
-    function stopRotationOnInteraction() {
-        clearTimeout(interactionTimeout); // Fjern tidligere timeout
-        currentViewer.stopAutoRotate(); // Stopp auto-rotasjon
-    }
-
-    // Lytt etter brukerinteraksjon
-    currentViewer.on('mousedown', stopRotationOnInteraction);
-    currentViewer.on('touchstart', stopRotationOnInteraction);
-    currentViewer.on('pointerdown', stopRotationOnInteraction);
-
-    // Start rotasjon igjen etter interaksjon
-    currentViewer.on('mouseup', startRotationAfterDelay);
-    currentViewer.on('touchend', startRotationAfterDelay);
-    currentViewer.on('pointerup', startRotationAfterDelay);
 }
 
 function stop360Viewer() {
-    // Rydd opp i eksisterende viewer
+    // Stopp rotasjon og skjul panorama-div
     if (currentViewer) {
-        currentViewer.destroy(); // Fjern viewer
-        currentViewer = null; // Nullstill referansen
+        currentViewer.stopAutoRotate();
     }
 
-    // Fjern panorama-diven hvis den finnes
     const panoramaDiv = document.getElementById("panorama");
     if (panoramaDiv) {
-        panoramaDiv.remove();
+        panoramaDiv.style.display = "none"; // Skjul div i stedet for å fjerne den
     }
 
     // Skjul tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "none";
 }
-
