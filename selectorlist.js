@@ -258,6 +258,7 @@ function backtooverview(){
 let currentViewer = null; // Variabel for å holde viewer-instansen
 
 function initialize360Viewer(url) {
+    let update = true;
     const panoramaDiv = document.getElementById("panorama");
     if (!panoramaDiv) {
         // Opprett panorama-div hvis det ikke finnes
@@ -267,6 +268,7 @@ function initialize360Viewer(url) {
         newPanoramaDiv.style.height = "100%";
         newPanoramaDiv.style.zIndex = "0";
         document.getElementById("panpramaviewer").appendChild(newPanoramaDiv);
+        update = false;
     }
 
     if (!currentViewer) {
@@ -286,17 +288,22 @@ function initialize360Viewer(url) {
                 }
             }
         });
+        update = false;
     }
+    return update;
 }
 
 
 function start360Viewer(url) {
 
-    initialize360Viewer(); // Sørg for at viewer er initialisert
+    let update =  initialize360Viewer(url); // Sørg for at viewer er initialisert
+   
     const panoramaDiv = document.getElementById("panorama");
     if (panoramaDiv) {
         panoramaDiv.style.display = "block"; // Gjør div-en synlig igjen
     }
+
+if(update){
     // Legg til eller oppdater en scene
     currentViewer.addScene("newScene", {
         "type": "equirectangular",
@@ -307,7 +314,7 @@ function start360Viewer(url) {
 
     // Last den nye scenen
     currentViewer.loadScene("newScene");
-
+}
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
 }
