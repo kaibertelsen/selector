@@ -35,23 +35,27 @@ const tomter = [
     let activeButton = null;
 
 // Funksjon for å håndtere visning og skjuling av kart
-function toggleMap() {
+function toggleMapWithFade() {
     const satellittkart = document.getElementById("satelittkart");
     const reguleringskart = document.getElementById("reguleringskart");
 
-    if (satellittkart.style.display === "none") {
-        // Gjør satellittkart synlig og reguleringskart skjult
-        satellittkart.style.display = "block";
-        reguleringskart.style.display = "none";
+    if (satellittkart.classList.contains("visible")) {
+        // Fader ut satellittkart, inn reguleringskart
+        satellittkart.classList.remove("visible");
+        satellittkart.classList.add("hidden");
+        reguleringskart.classList.remove("hidden");
+        reguleringskart.classList.add("visible");
     } else {
-        // Gjør reguleringskart synlig og satellittkart skjult
-        satellittkart.style.display = "none";
-        reguleringskart.style.display = "block";
+        // Fader ut reguleringskart, inn satellittkart
+        reguleringskart.classList.remove("visible");
+        reguleringskart.classList.add("hidden");
+        satellittkart.classList.remove("hidden");
+        satellittkart.classList.add("visible");
     }
 }
 
 // Legg til en event listener på knappen
-document.getElementById("mapchangerbutton").addEventListener("click", toggleMap);
+document.getElementById("mapchangerbutton").addEventListener("click", toggleMapWithFade);
 
 
 
