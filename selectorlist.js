@@ -62,7 +62,7 @@ adminToggle.addEventListener("click", () => {
             // Fjern admin-spesifikke hendelser
             button.removeEventListener("click", editTomt);
             button.removeEventListener("dragstart", dragStart);
-            button.removeEventListener("dragend");
+            button.removeEventListener("dragend", dragEnd);
 
             // Legg tilbake brukermodus-hendelsen
             button.addEventListener("click", handleTomteknappClick);
