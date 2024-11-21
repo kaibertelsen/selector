@@ -5,7 +5,7 @@ const tomter = [
       "status": "ledig",
       "navn": "Tomt A",
       "tekst": "Denne tomten har fantastisk utsikt.",
-      "bilde360": "link_til_360_bilde_1",
+      "bilde360": "https://ucarecdn.com/117f6970-7bf6-43aa-ad12-05c0a60f65c2/Tomt1.jpg",
       "posX": "83.62",
       "posY": "71.55"
     },

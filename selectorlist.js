@@ -234,12 +234,55 @@ function setButtonBackground(button, status) {
 function handleTomteknappClick(event) {
     if (isAdminMode) return; // Ikke gjør noe i admin-modus
 
+    selecttabbutton.click();
+
+
     const button = event.target.closest(".selectbutton");
 
     // Hent data fra knappens dataset
     const tomtNavn = button.dataset.navn || "Ukjent tomt";
     const tomtTekst = button.dataset.tekst || "Ingen beskrivelse tilgjengelig.";
-
-    // Eksempel: Vis en alert (kan tilpasses til en modal eller annen handling)
-    alert(`Du har valgt ${tomtNavn}.\nBeskrivelse: ${tomtTekst}`);
+    start360Viewer(button.dataset.bilde360 || "");
 }
+
+
+
+function start360Viewer(url){
+    const viewer = pannellum.viewer('panorama', {
+      "type": "equirectangular",
+      "panorama": url,
+      "autoLoad": true,
+      "showControls": false,
+      "autoRotate": -1.5  // Rotasjonshastighet: 1.5 grader per sekund mot venstre
+    });
+    
+    let interactionTimeout = null;
+
+    // Skjul placeholder når 360-bildet er lastet
+    viewer.on('load', function() {
+      document.getElementById('fadeinloadbutton').click();
+    });
+
+    // Funksjon for å starte rotasjonen etter 5 sekunder
+    function startRotationAfterDelay() {
+      interactionTimeout = setTimeout(() => {
+        viewer.startAutoRotate(-1.5); // Starter auto-rotasjon igjen etter 5 sekunder
+      }, 5000);
+    }
+
+    // Stopp rotasjonen når brukeren begynner å interagere
+    function stopRotationOnInteraction() {
+      clearTimeout(interactionTimeout); // Fjern tidligere timeout hvis den finnes
+      viewer.stopAutoRotate(); // Stopp auto-rotasjon
+    }
+
+    // Lytt etter brukerinteraksjon
+    viewer.on('mousedown', stopRotationOnInteraction);
+    viewer.on('touchstart', stopRotationOnInteraction);
+    viewer.on('pointerdown', stopRotationOnInteraction);
+
+    // Start rotasjonen igjen etter at brukeren er ferdig med interaksjonen
+    viewer.on('mouseup', startRotationAfterDelay);
+    viewer.on('touchend', startRotationAfterDelay);
+    viewer.on('pointerup', startRotationAfterDelay);
+  };
