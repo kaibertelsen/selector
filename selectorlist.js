@@ -256,84 +256,59 @@ function backtooverview(){
 let currentViewer = null; // Variabel for å holde viewer-instansen
 
 function initialize360Viewer(url) {
-    // Opprett panorama-div hvis det ikke finnes
-    let panoramaDiv = document.getElementById("panorama");
+    const panoramaDiv = document.getElementById("panorama");
     if (!panoramaDiv) {
-        panoramaDiv = document.createElement("div");
-        panoramaDiv.id = "panorama";
-        panoramaDiv.style.width = "100%";
-        panoramaDiv.style.height = "100%";
-        panoramaDiv.style.zIndex = "0";
-        document.getElementById("panpramaviewer").appendChild(panoramaDiv);
+        // Opprett panorama-div hvis det ikke finnes
+        const newPanoramaDiv = document.createElement("div");
+        newPanoramaDiv.id = "panorama";
+        newPanoramaDiv.style.width = "100%";
+        newPanoramaDiv.style.height = "100%";
+        newPanoramaDiv.style.zIndex = "0";
+        document.getElementById("panpramaviewer").appendChild(newPanoramaDiv);
     }
 
-    // Opprett viewer hvis det ikke finnes
     if (!currentViewer) {
+        // Opprett viewer hvis det ikke finnes
         currentViewer = pannellum.viewer('panorama', {
-            "type": "equirectangular",
-            "panorama": url, // Start uten panoramabilde
-            "autoLoad": true,
-            "showControls": false,
-            "autoRotate": -1.5 // Rotasjonshastighet
-        });
-
-        let interactionTimeout = null;
-
-        // Funksjon for å starte rotasjon etter brukerinteraksjon
-        function startRotationAfterDelay() {
-            interactionTimeout = setTimeout(() => {
-                if (currentViewer) {
-                    currentViewer.startAutoRotate(-1.5);
+            "default": {
+                "firstScene": "defaultScene",
+                "autoLoad": true,
+                "autoRotate": -1.5,
+                "showControls": false
+            },
+            "scenes": {
+                "defaultScene": {
+                    "type": "equirectangular",
+                    "panorama": "", // Start uten panoramabilde
+                    "autoLoad": true
                 }
-            }, 5000);
-        }
-
-        // Stopp rotasjonen ved brukerinteraksjon
-        function stopRotationOnInteraction() {
-            clearTimeout(interactionTimeout);
-            if (currentViewer) {
-                currentViewer.stopAutoRotate();
             }
-        }
-
-        // Lytt etter brukerinteraksjon
-        currentViewer.on('mousedown', stopRotationOnInteraction);
-        currentViewer.on('touchstart', stopRotationOnInteraction);
-        currentViewer.on('pointerdown', stopRotationOnInteraction);
-
-        // Start rotasjon igjen etter interaksjon
-        currentViewer.on('mouseup', startRotationAfterDelay);
-        currentViewer.on('touchend', startRotationAfterDelay);
-        currentViewer.on('pointerup', startRotationAfterDelay);
-    }
-}
-
-function update360Viewer(url) {
-    if (currentViewer) {
-        currentViewer.setPanorama(url, { 
-            "autoLoad": true, 
-            "autoRotate": -1.5 // Start rotasjon umiddelbart
         });
-    } else {
-        console.error("Viewer er ikke initialisert.");
     }
 }
+
 
 function start360Viewer(url) {
+    initialize360Viewer(); // Sørg for at viewer er initialisert
 
-    if(currentViewer){
-        update360Viewer(url)
-    }else{
-        initialize360Viewer(url); // Førstegang
-    }
+    // Legg til eller oppdater en scene
+    currentViewer.addScene("newScene", {
+        "type": "equirectangular",
+        "panorama": url,
+        "autoLoad": true,
+        "autoRotate": -1.5
+    });
+
+    // Last den nye scenen
+    currentViewer.loadScene("newScene");
+
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
 }
 
 function stop360Viewer() {
-    // Stopp rotasjon og skjul panorama-div
     if (currentViewer) {
-        currentViewer.stopAutoRotate();
+        currentViewer.stopAutoRotate(); // Stopp rotasjon
     }
 
     const panoramaDiv = document.getElementById("panorama");
@@ -341,5 +316,6 @@ function stop360Viewer() {
         panoramaDiv.style.display = "none"; // Skjul div i stedet for å fjerne den
     }
 
-   
+    // Skjul tilbakeknappen
+    document.getElementById("backtooverviewbutton").style.display = "none";
 }
