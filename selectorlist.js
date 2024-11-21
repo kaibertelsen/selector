@@ -335,6 +335,5 @@ function stop360Viewer() {
         panoramaDiv.style.display = "none"; // Skjul div i stedet for å fjerne den
     }
 
-    // Skjul tilbakeknappen
-    document.getElementById("backtooverviewbutton").style.display = "none";
+   
 }
