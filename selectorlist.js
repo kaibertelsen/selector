@@ -281,7 +281,7 @@ function initialize360Viewer(url) {
             "scenes": {
                 "defaultScene": {
                     "type": "equirectangular",
-                    "panorama": "", // Start uten panoramabilde
+                    "panorama": url,
                     "autoLoad": true
                 }
             }
