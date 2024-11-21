@@ -237,12 +237,14 @@ function setButtonBackground(button, status) {
 function handleTomteknappClick(event) {
     if (isAdminMode) return; // Ikke gjør noe i admin-modus
     document.getElementById("selecttabbutton").click();
-
     const button = event.target.closest(".selectbutton");
-    // Hent data fra knappens dataset
-    const tomtNavn = button.dataset.navn || "Ukjent tomt";
-    const tomtTekst = button.dataset.tekst || "Ingen beskrivelse tilgjengelig.";
+
+    document.getElementById("headertomtnamelable").textContent = button.dataset.navn || "Ukjent tomt";
+    document.getElementById("tomtetextlable").textContent = button.dataset.tekst || "Ukjent tomt";
+
+    if(button.dataset.bilde360 != ""){
     start360Viewer(button.dataset.bilde360 || "");
+    }
 }
 
 function start360Viewer(url){
