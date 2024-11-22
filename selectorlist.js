@@ -204,6 +204,8 @@ function createNewButton(tomtNumber, tomtData = {}) {
         newButton.dataset.tekst = tomtData.tekst || "Ingen beskrivelse.";
         newButton.dataset.bilde360 = tomtData.bilde360 || "link_til_360_bilde";
         newButton.dataset.status = status;
+        newButton.dataset.posX = tomtData.posX || 10;
+        newButton.dataset.posY = tomtData.posY || 10;
 
         newButton.draggable = isAdminMode;
 
