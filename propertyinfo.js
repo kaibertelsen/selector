@@ -1,13 +1,5 @@
 const tomter = [
     {
-      "airtable": null,
-      "nummer": "#",
-      "status": "ledig",
-      "navn": "Tomt #",
-      "tekst": "",
-      "bilde360": ""
-    },
-    {
       "airtable": "null",
       "nummer": "1",
       "status": "opptatt",
