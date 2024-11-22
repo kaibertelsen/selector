@@ -155,8 +155,8 @@ generateArrayButton.addEventListener("click", () => {
             nummer: button.querySelector(".number").textContent,
             status: button.dataset.status || "ledig",
             navn: button.dataset.navn || `Tomt ${button.querySelector(".number").textContent}`,
-            tekst: button.dataset.tekst || "Ingen beskrivelse.",
-            bilde360: button.dataset.bilde360 || "link_til_360_bilde",
+            tekst: button.dataset.tekst || "",
+            bilde360: button.dataset.bilde360 || "",
             posX: button.dataset.posX,
             posY: button.dataset.posY
         }));
