@@ -244,11 +244,15 @@ function handleTomteknappClick(event) {
     document.getElementById("headertomtnamelable").textContent = button.dataset.navn || "Ukjent tomt";
     document.getElementById("tomtetextlable").textContent = button.dataset.tekst || "Ukjent tomt";
 
-    // Starter 360-visning med forsinkelse
-setTimeout(() => {
-    console.log("Starter 360-visning med URL:", button.dataset.bilde360);
-    scrollToTop();
-    }, 500);
+
+      // Starter 360-visning med 100 ms forsinkelse hvis bilde360 finnes
+      if (button.dataset.bilde360 && button.dataset.bilde360.trim() !== "") {
+        setTimeout(() => {
+            start360Viewer(button.dataset.bilde360);
+            scrollToTop();
+        }, 100);
+    }
+
 }
 
 function backtooverview(){
