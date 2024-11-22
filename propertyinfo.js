@@ -1,5 +1,13 @@
 const tomter = [
     {
+      "airtable": null,
+      "nummer": "#",
+      "status": "ledig",
+      "navn": "Tomt #",
+      "tekst": "",
+      "bilde360": ""
+    },
+    {
       "airtable": "null",
       "nummer": "1",
       "status": "opptatt",
@@ -119,7 +127,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 15",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "68.40",
+      "posY": "63.01"
     },
     {
       "airtable": "null",
@@ -127,7 +137,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 16",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "64.46",
+      "posY": "66.61"
     },
     {
       "airtable": "null",
@@ -199,7 +211,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 24",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "37.68",
+      "posY": "66.01"
     },
     {
       "airtable": "null",
@@ -216,8 +230,8 @@ const tomter = [
       "navn": "Tomt 26",
       "tekst": "Ingen beskrivelse.",
       "bilde360": "link_til_360_bilde",
-      "posX": "32.53",
-      "posY": "63.37"
+      "posX": "31.86",
+      "posY": "61.82"
     },
     {
       "airtable": "null",
@@ -246,8 +260,8 @@ const tomter = [
       "navn": "Tomt 29",
       "tekst": "Ingen beskrivelse.",
       "bilde360": "link_til_360_bilde",
-      "posX": "17.97",
-      "posY": "57.74"
+      "posX": "18.50",
+      "posY": "57.50"
     },
     {
       "airtable": "null",
@@ -256,8 +270,8 @@ const tomter = [
       "navn": "Tomt 30",
       "tekst": "Ingen beskrivelse.",
       "bilde360": "link_til_360_bilde",
-      "posX": "12.29",
-      "posY": "55.23"
+      "posX": "12.76",
+      "posY": "53.91"
     },
     {
       "airtable": "null",
@@ -361,7 +375,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 43",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "35.87",
+      "posY": "49.60"
     },
     {
       "airtable": "null",
@@ -369,7 +385,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 44",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "30.46",
+      "posY": "37.98"
     },
     {
       "airtable": "null",
@@ -393,7 +411,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 47",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "41.88",
+      "posY": "46.84"
     },
     {
       "airtable": "null",
@@ -433,7 +453,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 52",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "53.57",
+      "posY": "48.76"
     },
     {
       "airtable": "null",
@@ -441,7 +463,9 @@ const tomter = [
       "status": "ledig",
       "navn": "Tomt 53",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "https://ucarecdn.com/e7338bc0-9409-41f2-ab04-0777c821c341/Tomt533.jpg"
+      "bilde360": "https://ucarecdn.com/e7338bc0-9409-41f2-ab04-0777c821c341/Tomt533.jpg",
+      "posX": "55.11",
+      "posY": "55.83"
     },
     {
       "airtable": "null",
@@ -473,7 +497,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 57",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "58.18",
+      "posY": "45.52"
     },
     {
       "airtable": "null",
@@ -529,7 +555,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 64",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "67.54",
+      "posY": "35.22"
     },
     {
       "airtable": "null",
@@ -545,7 +573,9 @@ const tomter = [
       "status": "opptatt",
       "navn": "Tomt 66",
       "tekst": "Ingen beskrivelse.",
-      "bilde360": "link_til_360_bilde"
+      "bilde360": "link_til_360_bilde",
+      "posX": "76.75",
+      "posY": "45.40"
     },
     {
       "airtable": "null",
@@ -573,4 +603,4 @@ const tomter = [
       "posX": "80.90",
       "posY": "74.87"
     }
-  ];
+  ]
