@@ -250,7 +250,7 @@ function handleTomteknappClick(event) {
         setTimeout(() => {
             start360Viewer(button.dataset.bilde360);
             scrollToTop();
-        }, 100);
+        }, 500);
     }
 
 }
