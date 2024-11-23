@@ -330,6 +330,7 @@ if(update){
 
     // Last den nye scenen
     currentViewer.loadScene("newScene");
+    currentViewer.resize(); // Juster visningen
 }
     // Vis tilbakeknappen
     document.getElementById("backtooverviewbutton").style.display = "block";
