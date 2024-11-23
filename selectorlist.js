@@ -323,6 +323,7 @@ if(update){
     currentViewer.addScene("newScene", {
         "type": "equirectangular",
         "panorama": url,
+        "defaultZoom": 1, 
         "autoLoad": true,
         "autoRotate": -1.5
     });
